@@ -4,6 +4,7 @@ import 'package:friflex_test_task/bloc/app_bloc.dart';
 import 'package:friflex_test_task/consts/consts.dart';
 
 ///Первый экран с поиском, AppBar и окошко с поиском
+///Принимает в себя errorText, который срабатывает, если запрос с пустым полем
 class FirstScreen extends StatelessWidget {
   final String? errorText;
   const FirstScreen({Key? key, this.errorText}) : super(key: key);

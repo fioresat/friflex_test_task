@@ -6,6 +6,7 @@ import 'package:friflex_test_task/model/weather_model.dart';
 import 'package:friflex_test_task/ui/weather_card.dart';
 
 ///Второй экран. AppBar, Название города и карточка с погодой на сегодня
+///Принимает в себя отсортированный по дате weatherModels
 class SecondScreen extends StatelessWidget {
   final List<WeatherModel> weatherModels;
 

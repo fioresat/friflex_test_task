@@ -7,6 +7,7 @@ import 'package:friflex_test_task/ui/weather_card.dart';
 
 
 ///Третий экран. AppBar, Название города и карточки с погодой на три дня, отсортированные по температуре
+///Принимает в себя отсортированный по температуре weatherModels
 class ThirdScreen extends StatelessWidget {
   final List<WeatherModel> weatherModels;
 
