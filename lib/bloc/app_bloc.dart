@@ -19,38 +19,45 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
     ///Вызвали ивент получения информации о погоде и перехода на второй экран
     on<AppEventGetForecastAndGoToSecondScreen>((event, emit) async {
-      /// На время всех запросов видим экран загрузки
-      emit(const LoadingState());
+      if (event.cityName.isEmpty) {
+        emit(const FirstScreenState(errorText: Consts.errorText));
+      } else {
+        /// На время всех запросов видим экран загрузки
+        emit(const LoadingState());
 
-      ///Делаем запрос на сервер
-      try {
-        final dataDecoded =
-            await FetchService().getDataForecast(event.cityName);
-        ///Если город такой не нашелся, то показываем экран ошибки
-        if (dataDecoded == null) {
-          emit(
-            const ErrorState(message: Consts.weatherErrorMessage),
-          );
-        } else {
-          ///При успехе создали лист моделек
-          final List<WeatherModel> weatherModels = [];
-          ///Прошли циклом по json, взяли тот, где 8 запросов за сутки
-          for (int i = 0; i < 17; i += 8) {
-            weatherModels.add(WeatherModel.fromJsonForecast(dataDecoded, i));
+        ///Делаем запрос на сервер
+        try {
+          final dataDecoded =
+              await FetchService().getDataForecast(event.cityName);
+
+          ///Если город такой не нашелся, то показываем экран ошибки
+          if (dataDecoded == null) {
+            emit(
+              const ErrorState(message: Consts.weatherErrorMessage),
+            );
+          } else {
+            ///При успехе создали лист моделек
+            final List<WeatherModel> weatherModels = [];
+
+            ///Прошли циклом по json, взяли тот, где 8 запросов за сутки
+            for (int i = 0; i < 17; i += 8) {
+              weatherModels.add(WeatherModel.fromJsonForecast(dataDecoded, i));
+            }
+
+            ///Эмитится второй экран с нужной информацией о погоде,
+            ///но знает всю погоду на три дня вперёд,
+            ///чтобы поделиться с третьим экраном при необходимости
+            emit(
+              SecondScreenLoadedState(weatherModels: weatherModels),
+            );
           }
-          ///Эмитится второй экран с нужной информацией о погоде,
-          ///но знает всю погоду на три дня вперёд,
-          ///чтобы поделиться с третьим экраном при необходимости
+        } on Exception catch (e) {
+          ///Если поймали ошибку
+          ///Эмитится экран ошибки и показывается снэк бар
           emit(
-            SecondScreenLoadedState(weatherModels: weatherModels),
+            ErrorState(message: e.toString()),
           );
         }
-      } on Exception catch (e) {
-        ///Если поймали ошибку
-        ///Эмитится экран ошибки и показывается снэк бар
-        emit(
-          ErrorState(message: e.toString()),
-        );
       }
     });
 

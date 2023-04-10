@@ -7,7 +7,8 @@ abstract class AppState {
 
 ///Состояние соответствующее первому экрану приложения
 class FirstScreenState extends AppState {
-  const FirstScreenState();
+  final String? errorText;
+  const FirstScreenState({this.errorText});
 }
 
 ///Состояние на время осуществления запроса и загрузки

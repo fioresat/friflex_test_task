@@ -7,5 +7,6 @@ abstract class Consts {
   static const internetConnectionErrorMessage =
       'Please, check your internet connection';
   static const labelText = 'Введите название города';
+  static const errorText = 'Название не может быть пустым';
   static const title = 'Погода';
 }

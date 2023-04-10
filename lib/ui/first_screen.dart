@@ -5,7 +5,8 @@ import 'package:friflex_test_task/consts/consts.dart';
 
 ///Первый экран с поиском, AppBar и окошко с поиском
 class FirstScreen extends StatelessWidget {
-  const FirstScreen({Key? key}) : super(key: key);
+  final String? errorText;
+  const FirstScreen({Key? key, this.errorText}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,13 +24,14 @@ class FirstScreen extends StatelessWidget {
               Expanded(
                 child: TextField(
                   controller: cityController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
+                  decoration: InputDecoration(
+                    border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(
                         Radius.circular(10.0),
                       ),
                     ),
                     labelText: Consts.labelText,
+                    errorText: errorText,
                   ),
                   onSubmitted: (String city) {
                     context.read<AppBloc>().add(

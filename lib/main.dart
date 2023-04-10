@@ -40,7 +40,9 @@ class WeatherApp extends StatelessWidget {
           builder: (context, state) {
             ///Если такое-то сотояние, то показываем такой-то экран
             if (state is FirstScreenState) {
-              return const FirstScreen();
+              return FirstScreen(
+                errorText: state.errorText,
+              );
             } else if (state is SecondScreenLoadedState) {
               return SecondScreen(
                 weatherModels: state.weatherModels,
